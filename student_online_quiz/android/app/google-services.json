@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "699314863806",
+    "project_id": "real-time-quiz-managment-app",
+    "storage_bucket": "real-time-quiz-managment-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:699314863806:android:2b6c7a3033d7e7244728ef",
+        "android_client_info": {
+          "package_name": "com.example.student_online_quiz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "699314863806-lfjji251bu9mgplskv9jc9o2bjnmpe5u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDn2r1YIZATGpwGBZMunbcwbJcfdEZSzaY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "699314863806-lfjji251bu9mgplskv9jc9o2bjnmpe5u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
