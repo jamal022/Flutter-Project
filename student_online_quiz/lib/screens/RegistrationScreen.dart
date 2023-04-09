@@ -26,9 +26,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
           password: _passwordController.text.trim(),
         );
         Navigator.of(context).pushNamed('/');
+      } else {
+        print("Password Doesn't Match");
       }
     } catch (e) {
-      print("password doesn't match");
+      print("Check Your Email");
     }
   }
 
