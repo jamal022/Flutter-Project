@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:professor_app/Screens/CreateCourse.dart';
 import 'package:professor_app/Screens/CreateQuiz.dart';
+import 'package:professor_app/Screens/ShowCourse.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,31 +17,66 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       body: Center(
-        child: Row(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CreateCourseScreen(),
-                      ));
-                },
-                child: Text("Create Course")),
-            SizedBox(
-              width: 20,
+            Text(
+              "Welcome",
+              style: GoogleFonts.robotoCondensed(
+                fontWeight: FontWeight.bold,
+                fontSize: 50,
+              ),
             ),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CreateQuizScreen(),
-                      ));
+            SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed('showCourses');
                 },
-                child: Text("Create Quiz"))
+                child: Container(
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: Colors.teal[200]),
+                    child: Center(
+                        child: Text(
+                      "Courses",
+                      style: GoogleFonts.robotoCondensed(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold),
+                    ))),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed('createQuiz');
+                },
+                child: Container(
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: Colors.teal[200]),
+                    child: Center(
+                        child: Text(
+                      "Quizes",
+                      style: GoogleFonts.robotoCondensed(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold),
+                    ))),
+              ),
+            )
           ],
         ),
       ),

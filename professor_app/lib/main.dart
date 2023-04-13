@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:professor_app/Screens/CreateCourse.dart';
+import 'package:professor_app/Screens/CreateQuiz.dart';
 import 'package:professor_app/Screens/HomeScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:professor_app/Screens/ShowCourse.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,7 +19,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      //home: HomeScreen(),
+      routes: {
+        '/': (context) => const HomeScreen(),
+        'createCourse': (context) => const CreateCourseScreen(),
+        'showCourses': (context) => const ShowCoursesScreem(),
+        'createQuiz': (context) => const CreateQuizScreen(),
+      },
     );
   }
 }

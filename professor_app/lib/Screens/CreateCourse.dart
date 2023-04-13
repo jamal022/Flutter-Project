@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -100,7 +100,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
     }
 
     // upload the image to Firebase Storage
-    final fileName = '${_image!.path.split('/').last}';
+    final fileName = _image!.path.split('/').last;
     final task = _storageRef.child(fileName).putFile(_image!);
     final snapshot = await task.whenComplete(() {});
     final downloadUrl = await snapshot.ref.getDownloadURL();
@@ -112,12 +112,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
     });
 
     // navigate to the HomeScreen
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => HomeScreen(),
-      ),
-    );
+    Navigator.of(context).pushReplacementNamed("/");
   }
 
   @override
