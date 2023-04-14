@@ -97,6 +97,14 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
           ],
         ),
       );
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+              title: Text("Adding course"),
+              content: Container(
+                  height: 50,
+                  child: Center(child: CircularProgressIndicator()))));
     }
 
     // upload the image to Firebase Storage

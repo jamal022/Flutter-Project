@@ -5,6 +5,8 @@ import 'package:professor_app/Screens/HomeScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:professor_app/Screens/ShowCourse.dart';
 
+import 'Screens/ShowQuizes.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -25,6 +27,7 @@ class MyApp extends StatelessWidget {
         'createCourse': (context) => const CreateCourseScreen(),
         'showCourses': (context) => const ShowCoursesScreem(),
         'createQuiz': (context) => const CreateQuizScreen(),
+        'showQuizes': (context) => const ShowQuizesScreen(),
       },
     );
   }

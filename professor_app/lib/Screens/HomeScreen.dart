@@ -60,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushNamed('createQuiz');
+                  Navigator.of(context).pushNamed('showQuizes');
                 },
                 child: Container(
                     padding: EdgeInsets.all(16),
