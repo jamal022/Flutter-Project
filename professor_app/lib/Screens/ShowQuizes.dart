@@ -33,11 +33,11 @@ class _ShowQuizesScreenState extends State<ShowQuizesScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushNamed('createQuiz');
+                    Navigator.of(context).pushReplacementNamed('createQuiz');
                   },
                   child: Container(
                       decoration: BoxDecoration(
-                          color: Colors.teal[200],
+                          color: Colors.teal[400],
                           borderRadius: BorderRadius.circular(20)),
                       child: Icon(
                         Icons.add,
@@ -53,8 +53,7 @@ class _ShowQuizesScreenState extends State<ShowQuizesScreen> {
           ),
           Expanded(
               child: StreamBuilder<QuerySnapshot>(
-            stream:
-                FirebaseFirestore.instance.collection('Courses').snapshots(),
+            stream: FirebaseFirestore.instance.collection('Quizes').snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return Center(
@@ -66,10 +65,38 @@ class _ShowQuizesScreenState extends State<ShowQuizesScreen> {
                 itemCount: documents.length,
                 itemBuilder: (context, index) {
                   final quizes = documents[index];
+                  Map<String, dynamic> quizDate = quizes['Quiz Date'];
+                  String day = quizDate['Day'].toString();
+                  String month = quizDate['Month'].toString();
+                  String year = quizDate['Year'].toString();
                   return Column(
                     children: [
-                      ListTile(
-                        title: Text(quizes['Name']),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.white),
+                          child: ListTile(
+                            title: Text(quizes['Quiz Name']),
+                            trailing: GestureDetector(
+                              onTap: () {
+                                FirebaseFirestore.instance
+                                    .collection("Quizes")
+                                    .doc(quizes.id)
+                                    .delete();
+                              },
+                              child: Icon(
+                                Icons.delete,
+                                color: Colors.red,
+                              ),
+                            ),
+                            subtitle: Text('${day}/${month}/${year}'),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
                       )
                     ],
                   );

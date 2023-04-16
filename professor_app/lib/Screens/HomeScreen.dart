@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        color: Colors.teal[200]),
+                        color: Colors.teal[400]),
                     child: Center(
                         child: Text(
                       "Courses",
@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        color: Colors.teal[200]),
+                        color: Colors.teal[400]),
                     child: Center(
                         child: Text(
                       "Quizes",

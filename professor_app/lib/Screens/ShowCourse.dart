@@ -37,7 +37,7 @@ class _ShowCoursesScreemState extends State<ShowCoursesScreem> {
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Colors.teal[200],
+                            color: Colors.teal[400],
                             borderRadius: BorderRadius.circular(20)),
                         child: Icon(
                           Icons.add,

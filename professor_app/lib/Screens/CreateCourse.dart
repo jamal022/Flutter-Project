@@ -83,7 +83,6 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
     }
 
     if (_courseNameController.text.trim().isEmpty) {
-      // show an error message if no image is selected
       return showDialog(
         context: context,
         builder: (_) => AlertDialog(
@@ -182,7 +181,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                         padding: EdgeInsets.all(16),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            color: Colors.deepOrange[200]),
+                            color: Colors.deepOrange[400]),
                         child: Center(
                           child: Text(
                             "Upload Image",
@@ -205,7 +204,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                         padding: EdgeInsets.all(16),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            color: Colors.teal[200]),
+                            color: Colors.teal[400]),
                         child: Center(
                           child: Text(
                             "Submit",
