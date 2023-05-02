@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
+import 'package:student_online_quiz/screens/CoursesScreen.dart';
 import 'package:student_online_quiz/screens/LoginScreen.dart';
 
 import 'HomeScreen.dart';
@@ -14,7 +15,7 @@ class Auth extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return HomeScreen();
+            return CourseScreen();
           } else {
             return LoginScreen();
           }
