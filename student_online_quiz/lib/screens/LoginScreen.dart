@@ -18,6 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future signIn() async {
     try {
+      CircularProgressIndicator();
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),

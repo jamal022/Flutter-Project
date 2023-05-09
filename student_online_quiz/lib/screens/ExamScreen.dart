@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,9 +24,12 @@ class _ExamScreenState extends State<ExamScreen> {
   bool answerIsTrue = false;
   bool answerIsFalse = false;
   int _currentQuestionIndex = 0;
+  int duration = 0;
+  bool isCountdownRunning = true;
   final user = FirebaseAuth.instance.currentUser!;
 
   void uploadQuiz() async {
+    isCountdownRunning = false;
     int i = 0;
     int grade = 0;
     while (i < quizData['Questions'].length) {
@@ -41,14 +46,16 @@ class _ExamScreenState extends State<ExamScreen> {
       'Answered Questions': answers,
       'Show Final Score': quizData['Show Final Score'],
       'Grade': grade,
-      'Quiz index': widget.quizIndex
+      'Total Questions': quizData['Questions'].length,
+      'Quiz index': widget.quizIndex,
+      'Duration In Minutes': (duration / 60).floor()
     });
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
         title: Text('Congratulations'),
         content: quizData['Show Final Score'] == true
-            ? Text(grade.toString())
+            ? Text("Your Grade : ${grade.toString()}")
             : Text("Your professor will tell you the grade"),
         actions: [
           TextButton(
@@ -65,6 +72,7 @@ class _ExamScreenState extends State<ExamScreen> {
   }
 
   void leaveQuiz() async {
+    isCountdownRunning = false;
     int grade = 0;
     FirebaseFirestore.instance.collection('Submitted Quizes').add({
       'Email': user.email,
@@ -74,13 +82,48 @@ class _ExamScreenState extends State<ExamScreen> {
       'Answered Questions': answers,
       'Show Final Score': quizData['Show Final Score'],
       'Grade': grade,
-      'Quiz index': widget.quizIndex
+      'Total Questions': quizData['Questions'].length,
+      'Quiz index': widget.quizIndex,
+      'Duration In Minutes': (duration / 60).floor()
     });
-    Navigator.push(
+    Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) => CourseScreen(),
         ));
+  }
+
+  void deleteUserTakingQuiz() async {
+    FirebaseFirestore.instance
+        .collection('Taking Quiz')
+        .where('Quiz Index', isEqualTo: widget.quizIndex)
+        .where('Email', isEqualTo: user.email)
+        .get()
+        .then((snapshot) {
+      for (var doc in snapshot.docs) {
+        doc.reference.delete();
+      }
+    });
+  }
+
+  void updateAnswers() async {
+    FirebaseFirestore.instance
+        .collection('Taking Quiz')
+        .where('Quiz Index', isEqualTo: widget.quizIndex)
+        .where('Email', isEqualTo: user.email)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((DocumentSnapshot documentSnapshot) {
+        // Update the document with the ID documentSnapshot.id
+        FirebaseFirestore.instance
+            .collection('Taking Quiz')
+            .doc(documentSnapshot.id)
+            .update({
+          'Question Number': _currentQuestionIndex + 1,
+          'Answered Questions': answers
+        });
+      });
+    });
   }
 
   @override
@@ -136,6 +179,15 @@ class _ExamScreenState extends State<ExamScreen> {
                   duration: Duration(
                       hours: quizData['Quiz Duration.Hours'],
                       minutes: quizData['Quiz Duration.Minutes']),
+                  onDone: () {
+                    if (isCountdownRunning) uploadQuiz();
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      duration++;
+                    });
+                    //print('${value.inHours}h/${value.inMinutes.remainder(60)}m/${value.inSeconds.remainder(60)}');
+                  },
                 ),
               ],
             ),
@@ -164,6 +216,7 @@ class _ExamScreenState extends State<ExamScreen> {
                     answerIsFalse = false;
                   });
                   print(answers);
+                  updateAnswers();
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor:
@@ -178,6 +231,7 @@ class _ExamScreenState extends State<ExamScreen> {
                     answerIsTrue = false;
                   });
                   print(answers);
+                  updateAnswers();
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor:
@@ -209,6 +263,7 @@ class _ExamScreenState extends State<ExamScreen> {
                       }
                     });
                     print(answers);
+                    updateAnswers();
                   },
                   child: Text("Previous"),
                 ),
@@ -231,6 +286,7 @@ class _ExamScreenState extends State<ExamScreen> {
                       }
                     });
                     print(answers);
+                    updateAnswers();
                   },
                   child: Text("Next"),
                 ),
@@ -244,6 +300,7 @@ class _ExamScreenState extends State<ExamScreen> {
             child: GestureDetector(
               onTap: () {
                 uploadQuiz();
+                deleteUserTakingQuiz();
               },
               child: Container(
                   decoration: BoxDecoration(
@@ -269,6 +326,7 @@ class _ExamScreenState extends State<ExamScreen> {
             child: GestureDetector(
               onTap: () {
                 leaveQuiz();
+                deleteUserTakingQuiz();
               },
               child: Container(
                   decoration: BoxDecoration(

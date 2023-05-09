@@ -20,6 +20,9 @@ class QuizesScreen extends StatefulWidget {
 
 class _QuizesScreenState extends State<QuizesScreen> {
   var submittedQuizes;
+  DateTime currentDate = DateTime.now();
+  var quizData;
+  var usersTakingQuiz;
   final user = FirebaseAuth.instance.currentUser!;
   void checkTakedQuiz(quizIndex) async {
     print(quizIndex);
@@ -31,6 +34,7 @@ class _QuizesScreenState extends State<QuizesScreen> {
         .then((snapshot) {
       submittedQuizes = snapshot.docs;
       if (snapshot.docs.isNotEmpty) {
+        print(currentDate.day);
         // User has already taken the quiz, show error message
         showDialog(
           context: context,
@@ -50,15 +54,86 @@ class _QuizesScreenState extends State<QuizesScreen> {
           ),
         );
       } else {
-        // User hasn't taken the quiz yet, navigate to the quiz screen
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ExamScreen(
-              quizIndex: quizIndex,
-            ),
+        FirebaseFirestore.instance
+            .collection('Quizes')
+            .doc(quizIndex)
+            .get()
+            .then((snapshot) {
+          setState(() {
+            quizData = snapshot;
+          });
+        });
+        checkUsersTakinQuiz(quizIndex);
+      }
+    });
+  }
+
+  void checkUsersTakinQuiz(quizIndex) async {
+    FirebaseFirestore.instance
+        .collection('Taking Quiz')
+        .where('Quiz Index', isEqualTo: quizIndex)
+        .get()
+        .then((snapshot) {
+      setState(() {
+        usersTakingQuiz = snapshot;
+      });
+      int usersCounter = 0;
+      if (currentDate.day != quizData["Quiz Date.Day"] ||
+          currentDate.month != quizData["Quiz Date.Month"] ||
+          currentDate.year != quizData["Quiz Date.Year"]) {
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: Text("Error"),
+            content: Text("The Date is not the same"),
+            actions: [
+              TextButton(
+                child: Text('OK'),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
           ),
         );
+      } else {
+        for (var docs in snapshot.docs) {
+          print(docs['Email']);
+          usersCounter++;
+          print(usersCounter);
+        }
+        if (usersCounter >= 2) {
+          showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+              title: Text("Error"),
+              content:
+                  Text("Sorry wait until one the studnets finish the quiz"),
+              actions: [
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ],
+            ),
+          );
+        } else {
+          FirebaseFirestore.instance.collection('Taking Quiz').add({
+            'Email': user.email,
+            'Email ID': user.uid,
+            'Quiz Name': quizData['Quiz Name'],
+            'Course Name': quizData['Course Name'],
+            'Quiz Index': quizIndex,
+            'Question Number': 1,
+            'Answered Questions': null,
+          });
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ExamScreen(
+                quizIndex: quizIndex,
+              ),
+            ),
+          );
+        }
       }
     });
   }

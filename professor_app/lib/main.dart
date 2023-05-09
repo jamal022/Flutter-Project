@@ -3,6 +3,8 @@ import 'package:professor_app/Screens/CreateCourse.dart';
 import 'package:professor_app/Screens/CreateQuiz.dart';
 import 'package:professor_app/Screens/HomeScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:professor_app/Screens/MonitorScreen.dart';
+import 'package:professor_app/Screens/NotficationsScreen.dart';
 import 'package:professor_app/Screens/ShowCourse.dart';
 
 import 'Screens/ShowQuizes.dart';
@@ -28,6 +30,8 @@ class MyApp extends StatelessWidget {
         'showCourses': (context) => const ShowCoursesScreem(),
         'createQuiz': (context) => const CreateQuizScreen(),
         'showQuizes': (context) => const ShowQuizesScreen(),
+        'monitorScreen': (context) => const MonitorScreen(),
+        'notficationsScreen': (context) => const NotficationsScreen(),
       },
     );
   }

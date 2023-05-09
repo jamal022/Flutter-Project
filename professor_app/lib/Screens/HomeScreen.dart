@@ -76,6 +76,54 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontWeight: FontWeight.bold),
                     ))),
               ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed('monitorScreen');
+                },
+                child: Container(
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: Colors.teal[400]),
+                    child: Center(
+                        child: Text(
+                      "Monitor",
+                      style: GoogleFonts.robotoCondensed(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold),
+                    ))),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed('notficationsScreen');
+                },
+                child: Container(
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: Colors.teal[400]),
+                    child: Center(
+                        child: Text(
+                      "Notfications",
+                      style: GoogleFonts.robotoCondensed(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold),
+                    ))),
+              ),
             )
           ],
         ),
